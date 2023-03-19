@@ -1,7 +1,17 @@
 import { Navbar, NavLink } from "@mantine/core";
 
 const sections = [
-  { name: "Accounts", sections: [{ name: "Create" }, { name: "View" }] },
+  {
+    name: "General Entry",
+    sections: [{ name: "Create" }, { name: "View All" }],
+  },
+  {
+    name: "Product Entry",
+    sections: [{ name: "Create" }, { name: "View All" }],
+  },
+  { name: "Daily" },
+  { name: "Accounts", sections: [{ name: "Create" }, { name: "View All" }] },
+  { name: "Products", sections: [{ name: "Create" }, { name: "View All" }] },
 ];
 
 type Section = { name: string; sections?: Section[] };
