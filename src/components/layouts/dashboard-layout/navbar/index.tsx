@@ -1,4 +1,5 @@
 import { Navbar, NavLink } from "@mantine/core";
+import Link from "next/link";
 
 const sections = [
   {
@@ -10,15 +11,21 @@ const sections = [
     sections: [{ name: "Create" }, { name: "View All" }],
   },
   { name: "Daily" },
-  { name: "Accounts", sections: [{ name: "Create" }, { name: "View All" }] },
+  { name: "Accounts", href: "accounts" },
   { name: "Products", sections: [{ name: "Create" }, { name: "View All" }] },
 ];
 
-type Section = { name: string; sections?: Section[] };
+type Section = { name: string; sections?: Section[]; href?: string };
 
-function Section({ name, sections = [] }: Section) {
+function Section({ name, href, sections = [] }: Section) {
+  const additionalParams:
+    | object
+    | { component: React.ReactNode; href: string } = href
+    ? { component: Link, href: `dashboard/${href}` }
+    : {};
+
   return (
-    <NavLink label={name}>
+    <NavLink label={name} {...additionalParams}>
       {sections?.length > 0 && (
         <>
           {sections?.map((section) => (

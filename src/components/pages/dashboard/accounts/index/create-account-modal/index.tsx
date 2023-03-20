@@ -1,10 +1,16 @@
-import { Box, Button, Group, Modal, TextInput } from "@mantine/core";
+import { Button, Modal, TextInput } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { trpc } from "trpc";
+
+type FormValues = {
+  code: string;
+  name: string;
+};
 
 export default function CreateAccountModal() {
   const [opened, { open, close }] = useDisclosure(false);
-  const { getInputProps, onSubmit } = useForm({
+  const { getInputProps, onSubmit } = useForm<FormValues>({
     initialValues: {
       code: "",
       name: "",
@@ -15,8 +21,16 @@ export default function CreateAccountModal() {
     },
   });
 
-  function handleSubmit() {
-    close();
+  const context = trpc.useContext();
+  const { mutate, isLoading } = trpc.accounts.create.useMutation({
+    onSuccess: () => {
+      void context.accounts.all.invalidate();
+      close();
+    },
+  });
+
+  function handleSubmit({ name, code }: FormValues) {
+    mutate({ name, code });
   }
 
   return (
@@ -31,7 +45,7 @@ export default function CreateAccountModal() {
             {...getInputProps("code")}
           />
           <TextInput withAsterisk label="Name" {...getInputProps("name")} />
-          <Button mt={16} type="submit" grow>
+          <Button mt={16} type="submit" loading={isLoading}>
             Submit
           </Button>
         </form>
