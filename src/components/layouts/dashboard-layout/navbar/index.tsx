@@ -12,7 +12,7 @@ const sections = [
   },
   { name: "Daily" },
   { name: "Accounts", href: "accounts" },
-  { name: "Products", sections: [{ name: "Create" }, { name: "View All" }] },
+  { name: "Products", href: "products" },
 ];
 
 type Section = { name: string; sections?: Section[]; href?: string };
@@ -21,7 +21,7 @@ function Section({ name, href, sections = [] }: Section) {
   const additionalParams:
     | object
     | { component: React.ReactNode; href: string } = href
-    ? { component: Link, href: `dashboard/${href}` }
+    ? { component: Link, href: `/dashboard/${href}` }
     : {};
 
   return (
