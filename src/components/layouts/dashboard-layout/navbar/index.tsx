@@ -4,11 +4,17 @@ import Link from "next/link";
 const sections = [
   {
     name: "General Entry",
-    sections: [{ name: "Create" }, { name: "View All" }],
+    sections: [
+      { name: "Create", href: "general-entry/create" },
+      { name: "View All" },
+    ],
   },
   {
     name: "Product Entry",
-    sections: [{ name: "Create" }, { name: "View All" }],
+    sections: [
+      { name: "Create", href: "product-entry/create" },
+      { name: "View All" },
+    ],
   },
   { name: "Daily" },
   { name: "Accounts", href: "accounts" },

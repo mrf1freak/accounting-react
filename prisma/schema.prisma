@@ -31,18 +31,20 @@ model Account {
 }
 
 model Product {
-  id       Int       @id @default(autoincrement())
-  code     String    @unique
-  name     String    @unique
-  packings Packing[]
+  id                Int                @id @default(autoincrement())
+  code              String             @unique
+  name              String             @unique
+  packings          Packing[]
+  productEntryItems ProductEntryItem[]
 }
 
 model Packing {
-  id        Int     @id @default(autoincrement())
-  product   Product @relation(fields: [productId], references: [id])
-  size      Int
-  quantity  Int     @default(0)
-  productId Int
+  id                Int                @id @default(autoincrement())
+  product           Product            @relation(fields: [productId], references: [id])
+  size              Int
+  quantity          Int                @default(0)
+  productId         Int
+  productEntryItems ProductEntryItem[]
 }
 
 model GeneralEntry {
@@ -59,13 +61,26 @@ model GeneralEntry {
 }
 
 model ProductEntry {
-  id                Int              @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   date              DateTime
   description       String
-  user              User             @relation(fields: [userId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
   type              ProductEntryType
-  account           Account          @relation(fields: [accountId], references: [id])
-  additionalCharges Int?             @default(0)
+  account           Account            @relation(fields: [accountId], references: [id])
+  additionalCharges Int?               @default(0)
   userId            Int
   accountId         Int
+  items             ProductEntryItem[]
+}
+
+model ProductEntryItem {
+  id             Int          @id @default(autoincrement())
+  product        Product      @relation(fields: [productId], references: [id])
+  packing        Packing      @relation(fields: [packingId], references: [id])
+  quantity       Int
+  price          Int
+  productEntry   ProductEntry @relation(fields: [productEntryId], references: [id])
+  productId      Int
+  packingId      Int
+  productEntryId Int
 }

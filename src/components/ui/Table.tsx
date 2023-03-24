@@ -3,8 +3,11 @@ import { HTMLAttributes } from "react";
 
 type Props<T> = {
   items: T[];
-  columns: { name: string; value: (row: T) => React.ReactNode }[];
-  getKey: (row: T) => string | number;
+  columns: {
+    name: string;
+    value: (row: T, index: number) => React.ReactNode;
+  }[];
+  getKey: (row: T, index: number) => string | number;
   onClickRow?: (row: T) => void;
   rowProps?: React.DetailedHTMLProps<
     HTMLAttributes<HTMLTableRowElement>,
@@ -26,14 +29,14 @@ export default function Table<T>({
       ))}
     </tr>
   );
-  const rows = items.map((row) => (
+  const rows = items.map((row, index) => (
     <tr
       onClick={() => onClickRow(row)}
-      key={getKey(row).toString()}
+      key={getKey(row, index).toString()}
       {...rowProps}
     >
       {columns.map(({ value }, index) => (
-        <td key={index}>{value(row)}</td>
+        <td key={index}>{value(row, index)}</td>
       ))}
     </tr>
   ));
