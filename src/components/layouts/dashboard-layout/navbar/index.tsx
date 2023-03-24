@@ -16,7 +16,7 @@ const sections = [
       { name: "View All" },
     ],
   },
-  { name: "Daily" },
+  { name: "Daily", href: "daily" },
   { name: "Accounts", href: "accounts" },
   { name: "Products", href: "products" },
 ];

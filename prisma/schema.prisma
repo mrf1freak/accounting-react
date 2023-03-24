@@ -49,7 +49,7 @@ model Packing {
 
 model GeneralEntry {
   id          Int      @id @default(autoincrement())
-  date        DateTime
+  date        DateTime @db.Date
   description String
   user        User     @relation(fields: [userId], references: [id])
   amount      Int
@@ -62,7 +62,7 @@ model GeneralEntry {
 
 model ProductEntry {
   id                Int                @id @default(autoincrement())
-  date              DateTime
+  date              DateTime           @db.Date
   description       String
   user              User               @relation(fields: [userId], references: [id])
   type              ProductEntryType

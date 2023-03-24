@@ -3,6 +3,13 @@ import { prisma } from "prisma-client";
 import { z } from "zod";
 
 export const productEntryRouter = router({
+  findByDate: privateProcedure.input(z.date()).query(
+    async ({ input: date }) =>
+      await prisma.productEntry.findMany({
+        where: { date },
+        include: { account: true },
+      })
+  ),
   create: privateProcedure
     .input(
       z.object({
