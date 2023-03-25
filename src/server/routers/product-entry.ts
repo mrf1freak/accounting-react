@@ -1,7 +1,17 @@
 import { privateProcedure, router } from "server/trpc";
 import { prisma } from "prisma-client";
 import { z } from "zod";
+import { add } from "lodash";
 
+function itemWithTotal<
+  T extends { quantity: number; price: number; packing: P },
+  P extends { size: number }
+>(item: T) {
+  return {
+    ...item,
+    total: item.quantity * item.price * item.packing.size,
+  };
+}
 export const productEntryRouter = router({
   findByDate: privateProcedure.input(z.date()).query(
     async ({ input: date }) =>
@@ -9,6 +19,19 @@ export const productEntryRouter = router({
         where: { date },
         include: { account: true },
       })
+  ),
+  findByID: privateProcedure.input(z.number()).query(async ({ input: id }) =>
+    withTotal(
+      await prisma.productEntry.findUnique({
+        where: { id },
+        include: {
+          account: true,
+          items: {
+            include: { packing: { include: { product: true } } },
+          },
+        },
+      })
+    )
   ),
   create: privateProcedure
     .input(
@@ -47,3 +70,18 @@ export const productEntryRouter = router({
         })
     ),
 });
+
+function withTotal<
+  E extends {
+    items: { quantity: number; price: number; packing: P }[];
+  },
+  P extends { size: number }
+>(productEntry: E | null) {
+  if (productEntry == null) return null;
+  const itemsWithTotal = productEntry.items.map(itemWithTotal);
+  return {
+    ...productEntry,
+    items: itemsWithTotal,
+    total: itemsWithTotal.map(({ total }) => total).reduce(add, 0),
+  };
+}

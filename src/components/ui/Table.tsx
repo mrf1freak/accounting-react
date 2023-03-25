@@ -1,21 +1,21 @@
 import { Table as MantineTable } from "@mantine/core";
 import { HTMLAttributes } from "react";
 
-type Props<T> = {
-  items: T[];
+type Props<T extends unknown[]> = {
+  items: T;
   columns: {
     name: string;
-    value: (row: T, index: number) => React.ReactNode;
+    value: (row: T[number], index: number) => React.ReactNode;
   }[];
-  getKey: (row: T, index: number) => string | number;
-  onClickRow?: (row: T) => void;
+  getKey: (row: T[number], index: number) => string | number;
+  onClickRow?: (row: T[number]) => void;
   rowProps?: React.DetailedHTMLProps<
     HTMLAttributes<HTMLTableRowElement>,
     HTMLTableRowElement
   >;
 };
 
-export default function Table<T>({
+export default function Table<T extends unknown[]>({
   items,
   columns,
   getKey,

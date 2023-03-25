@@ -27,7 +27,7 @@ export default function Daily() {
           { name: "Account", value: ({ account }) => account.name },
           { name: "Amount", value: () => 0 },
         ]}
-        onClickRow={({ id }) => push(`general-entry/${id}`)}
+        onClickRow={({ id }) => push(`product-entry/${id}`)}
         items={sales}
         getKey={({ id }) => id}
       />
