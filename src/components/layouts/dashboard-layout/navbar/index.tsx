@@ -1,5 +1,6 @@
-import { Navbar, NavLink } from "@mantine/core";
+import { Navbar, NavLink, UnstyledButton, Text } from "@mantine/core";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 const sections = [
   {
@@ -44,12 +45,17 @@ function Section({ name, href, sections = [] }: Section) {
 }
 
 export default function DashboardNavbar() {
+  const { data: session } = useSession();
   return (
     <Navbar width={{ base: 300 }}>
-      <Navbar.Section>
+      <Navbar.Section grow>
         {sections.map((section) => (
           <Section key={section.name} {...section} />
         ))}
+      </Navbar.Section>
+      <Navbar.Section p={8}>
+        <Text>{session?.user.username}</Text>
+        <UnstyledButton onClick={() => signOut()}>Logout</UnstyledButton>
       </Navbar.Section>
     </Navbar>
   );

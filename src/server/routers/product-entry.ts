@@ -54,6 +54,7 @@ export const productEntryRouter = router({
     .mutation(
       async ({
         input: { date, additionalCharges, description, accountId, type, items },
+        ctx: { session },
       }) =>
         await prisma.productEntry.create({
           data: {
@@ -62,7 +63,7 @@ export const productEntryRouter = router({
             description,
             type,
             account: { connect: { id: accountId } },
-            user: { connect: { id: 1 } },
+            user: { connect: { id: session?.user.id } },
             items: {
               createMany: { data: items },
             },

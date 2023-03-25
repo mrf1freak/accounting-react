@@ -21,7 +21,10 @@ export const generalEntryRouter = router({
       })
     )
     .mutation(
-      async ({ input: { date, amount, description, toId, fromId } }) =>
+      async ({
+        input: { date, amount, description, toId, fromId },
+        ctx: { session },
+      }) =>
         await prisma.generalEntry.create({
           data: {
             date,
@@ -29,7 +32,7 @@ export const generalEntryRouter = router({
             description,
             to: { connect: { id: toId } },
             from: { connect: { id: fromId } },
-            user: { connect: { id: 1 } },
+            user: { connect: { id: session?.user.id } },
           },
         })
     ),
