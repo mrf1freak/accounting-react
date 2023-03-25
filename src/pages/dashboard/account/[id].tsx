@@ -7,12 +7,14 @@ import { Table } from "components/ui";
 import { capitalize } from "lodash";
 import { DateInput } from "@mantine/dates";
 
+const defaultStartDate = new Date(new Date().valueOf() - 7 * 24 * 3600 * 1000);
+
 export default function AccountDetails() {
   const {
     query: { id: accountId },
   } = useRouter();
   const id = Number(accountId);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(defaultStartDate);
   const [endDate, setEndDate] = useState(new Date());
   const { data: account } = trpc.accounts.findByID.useQuery(id);
   const { data: report = [] } = trpc.accounts.report.useQuery({
@@ -32,7 +34,9 @@ export default function AccountDetails() {
         <Group>
           <DateInput
             value={startDate}
-            onChange={(date) => setStartDate(stripTime(date || new Date()))}
+            onChange={(date) =>
+              setStartDate(stripTime(date || defaultStartDate))
+            }
             label="Start"
           />
           <DateInput
