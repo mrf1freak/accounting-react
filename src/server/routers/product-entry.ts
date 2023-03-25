@@ -20,19 +20,19 @@ export const productEntryRouter = router({
         include: { account: true },
       })
   ),
-  findByID: privateProcedure.input(z.number()).query(async ({ input: id }) =>
-    withTotal(
-      await prisma.productEntry.findUnique({
-        where: { id },
-        include: {
-          account: true,
-          items: {
-            include: { packing: { include: { product: true } } },
-          },
+  findByID: privateProcedure.input(z.number()).query(async ({ input: id }) => {
+    const entry = await prisma.productEntry.findUnique({
+      where: { id },
+      include: {
+        account: true,
+        items: {
+          include: { packing: { include: { product: true } } },
         },
-      })
-    )
-  ),
+      },
+    });
+    if (entry == null) return;
+    return withTotal(entry);
+  }),
   create: privateProcedure
     .input(
       z.object({
@@ -71,13 +71,12 @@ export const productEntryRouter = router({
     ),
 });
 
-function withTotal<
+export function withTotal<
   E extends {
     items: { quantity: number; price: number; packing: P }[];
   },
   P extends { size: number }
->(productEntry: E | null) {
-  if (productEntry == null) return null;
+>(productEntry: E) {
   const itemsWithTotal = productEntry.items.map(itemWithTotal);
   return {
     ...productEntry,
