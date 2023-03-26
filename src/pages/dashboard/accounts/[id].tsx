@@ -3,7 +3,7 @@ import { useState } from "react";
 import { trpc } from "trpc";
 import { Group, Title } from "@mantine/core";
 import { useRouter } from "next/router";
-import { Table } from "components/ui";
+import { PrintHide, Table } from "components/ui";
 import { capitalize } from "lodash";
 import { DateInput } from "@mantine/dates";
 import { generalEntry, productEntry } from "utils/urls";
@@ -48,20 +48,22 @@ export default function AccountDetails() {
     <DashboardLayout>
       <Group mb={12} grow>
         <Title>{account?.name}</Title>
-        <Group>
-          <DateInput
-            value={startDate}
-            onChange={(date) =>
-              setStartDate(stripTime(date || defaultStartDate))
-            }
-            label="Start"
-          />
-          <DateInput
-            value={endDate}
-            onChange={(date) => setEndDate(stripTime(date || new Date()))}
-            label="End"
-          />
-        </Group>
+        <PrintHide>
+          <Group>
+            <DateInput
+              value={startDate}
+              onChange={(date) =>
+                setStartDate(stripTime(date || defaultStartDate))
+              }
+              label="Start"
+            />
+            <DateInput
+              value={endDate}
+              onChange={(date) => setEndDate(stripTime(date || new Date()))}
+              label="End"
+            />
+          </Group>
+        </PrintHide>
       </Group>
       <Table
         items={report}
