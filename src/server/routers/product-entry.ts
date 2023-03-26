@@ -13,12 +13,18 @@ function itemWithTotal<
   };
 }
 export const productEntryRouter = router({
-  findByDate: privateProcedure.input(z.date()).query(
-    async ({ input: date }) =>
+  findByDate: privateProcedure.input(z.date()).query(async ({ input: date }) =>
+    (
       await prisma.productEntry.findMany({
         where: { date },
-        include: { account: true },
+        include: {
+          account: true,
+          items: {
+            include: { packing: { include: { product: true } } },
+          },
+        },
       })
+    ).map(withTotal)
   ),
   findByID: privateProcedure.input(z.number()).query(async ({ input: id }) => {
     const entry = await prisma.productEntry.findUnique({

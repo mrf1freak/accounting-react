@@ -5,6 +5,7 @@ import { trpc } from "trpc";
 import { Table } from "components/ui";
 import { Box, Container, Flex, Group, Title } from "@mantine/core";
 import { useRouter } from "next/router";
+import { format } from "utils/currency";
 
 export default function Daily() {
   const { push } = useRouter();
@@ -25,7 +26,7 @@ export default function Daily() {
       <Table
         columns={[
           { name: "Account", value: ({ account }) => account.name },
-          { name: "Amount", value: () => 0 },
+          { name: "Amount", value: ({ total }) => format(total) },
         ]}
         onClickRow={({ id }) => push(`product-entry/${id}`)}
         items={sales}
@@ -42,7 +43,7 @@ export default function Daily() {
       <Table
         columns={[
           { name: "Account", value: ({ account }) => account.name },
-          { name: "Amount", value: () => 0 },
+          { name: "Amount", value: ({ total }) => format(total) },
         ]}
         onClickRow={({ id }) => push(`product-entry/${id}`)}
         items={purchases}
@@ -59,7 +60,10 @@ export default function Daily() {
       <Table
         columns={[
           { name: "From", value: ({ from }) => from.name },
-          { name: "Amount", value: ({ amount }) => amount },
+          {
+            name: "Amount",
+            value: ({ amount }) => format(amount),
+          },
           { name: "To", value: ({ to }) => to.name },
         ]}
         items={generalEntries}
