@@ -1,6 +1,7 @@
 import NextAuth, { AuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "prisma-client";
+import { comparePassword } from "utils/password";
 
 export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -18,7 +19,7 @@ export const authOptions: AuthOptions = {
         const user = await prisma.user.findUnique({ where: { username } });
 
         if (!user) return null;
-        if (user.password != password) return null;
+        if (!(await comparePassword(user.password, password))) return null;
 
         return { id: user.id, username };
       },
