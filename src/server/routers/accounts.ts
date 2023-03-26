@@ -57,6 +57,8 @@ async function getReport(accountId: number, startDate: Date, endDate: Date) {
       if ("type" in entry) {
         return {
           id: entry.id + "-pe",
+          entryId: entry.id,
+          entryType: "PRODUCT" as const,
           date: entry.date,
           amount: entry.type === "SALE" ? entry.total : -entry.total,
           type: entry.type,
@@ -64,6 +66,8 @@ async function getReport(accountId: number, startDate: Date, endDate: Date) {
       }
       return {
         id: entry.id + "-ge",
+        entryId: entry.id,
+        entryType: "GENERAL" as const,
         date: entry.date,
         amount: entry.toId == accountId ? entry.amount : -entry.amount,
         type: "PAYMENT",

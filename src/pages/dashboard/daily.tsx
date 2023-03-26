@@ -6,6 +6,7 @@ import { Table } from "components/ui";
 import { Box, Container, Flex, Group, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { format } from "utils/currency";
+import { productEntry } from "utils/urls";
 
 export default function Daily() {
   const { push } = useRouter();
@@ -28,7 +29,7 @@ export default function Daily() {
           { name: "Account", value: ({ account }) => account.name },
           { name: "Amount", value: ({ total }) => format(total) },
         ]}
-        onClickRow={({ id }) => push(`product-entry/${id}`)}
+        onClickRow={({ id }) => push(productEntry(id))}
         items={sales}
         getKey={({ id }) => id}
       />
@@ -45,7 +46,7 @@ export default function Daily() {
           { name: "Account", value: ({ account }) => account.name },
           { name: "Amount", value: ({ total }) => format(total) },
         ]}
-        onClickRow={({ id }) => push(`product-entry/${id}`)}
+        onClickRow={({ id }) => push(productEntry(id))}
         items={purchases}
         getKey={({ id }) => id}
       />

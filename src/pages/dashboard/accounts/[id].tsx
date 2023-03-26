@@ -6,12 +6,14 @@ import { useRouter } from "next/router";
 import { Table } from "components/ui";
 import { capitalize } from "lodash";
 import { DateInput } from "@mantine/dates";
+import { generalEntry, productEntry } from "utils/urls";
 
 const defaultStartDate = new Date(new Date().valueOf() - 7 * 24 * 3600 * 1000);
 
 export default function AccountDetails() {
   const {
     query: { id: accountId },
+    push,
   } = useRouter();
   const id = Number(accountId);
   const [startDate, setStartDate] = useState(defaultStartDate);
@@ -25,6 +27,21 @@ export default function AccountDetails() {
 
   function stripTime(date: Date) {
     return new Date(date.toDateString());
+  }
+
+  function handleClickRow({
+    entryType,
+    entryId,
+  }: {
+    entryType: "PRODUCT" | "GENERAL";
+    entryId: number;
+  }) {
+    switch (entryType) {
+      case "PRODUCT":
+        return push(productEntry(entryId));
+      case "GENERAL":
+        return push(generalEntry(entryId));
+    }
   }
 
   return (
@@ -61,6 +78,7 @@ export default function AccountDetails() {
           },
           { name: "Balance", value: ({ balance }) => balance },
         ]}
+        onClickRow={handleClickRow}
         getKey={({ id }) => id}
       />
     </DashboardLayout>
