@@ -183,6 +183,7 @@ export default function Create() {
                               setFieldValue(`items.${index}.productId`, value);
                               setFieldValue(`items.${index}.packingId`, "0");
                             }}
+                            searchable
                           />
                         </td>
 
@@ -198,6 +199,7 @@ export default function Create() {
                                 value: id.toString(),
                               }))}
                             {...getInputProps(`items.${index}.packingId`)}
+                            searchable
                           />
                         </td>
                         <td>

@@ -80,7 +80,7 @@ model ProductEntryItem {
   packing        Packing      @relation(fields: [packingId], references: [id])
   quantity       Int
   price          Int
-  productEntry   ProductEntry @relation(fields: [productEntryId], references: [id])
+  productEntry   ProductEntry @relation(fields: [productEntryId], references: [id], onDelete: Cascade)
   productId      Int
   packingId      Int
   productEntryId Int

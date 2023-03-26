@@ -4,6 +4,7 @@ import DashboardLayout from "components/layouts/dashboard-layout";
 import { Text, Container, Title, Space, Box, Group } from "@mantine/core";
 import { Table } from "components/ui";
 import { capitalize } from "lodash";
+import OptionsMenu from "components/pages/dashboard/product-entry/details/options-menu";
 
 export default function ProductEntryDetails() {
   const {
@@ -21,9 +22,12 @@ export default function ProductEntryDetails() {
             <Title>{entry.account.name}</Title>
             <Text>{entry.date.toDateString()}</Text>
           </Box>
-          <Title order={2} ta="right">
-            {capitalize(entry.type)}
-          </Title>
+          <Box>
+            <Title order={2} ta="right">
+              {capitalize(entry.type)}
+            </Title>
+            <OptionsMenu id={Number(id)} />
+          </Box>
         </Group>
         <Space h="md" />
         <Table

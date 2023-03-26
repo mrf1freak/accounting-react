@@ -76,6 +76,12 @@ export const productEntryRouter = router({
           },
         })
     ),
+  deleteByID: privateProcedure
+    .input(z.number())
+    .mutation(
+      async ({ input: id }) =>
+        await prisma.productEntry.delete({ where: { id } })
+    ),
 });
 
 export function withTotal<
