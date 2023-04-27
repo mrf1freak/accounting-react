@@ -9,7 +9,7 @@
 // │    5    │   'Sale'   │   35   │ 1.55 │ 54.25 │         0         │      0      │         0          │ 10.694444444444445 │
 // └─────────┴────────────┴────────┴──────┴───────┴───────────────────┴─────────────┴────────────────────┴────────────────────┘
 
-import { createProfitTable } from "./profit";
+import { createProfitTable } from "formula/profit";
 
 const data: { amount: number; rate: number; type: "Purchase" | "Sale" }[] = [
   { amount: 10, rate: 1, type: "Purchase" },
