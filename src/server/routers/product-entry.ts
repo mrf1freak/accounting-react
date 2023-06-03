@@ -86,7 +86,8 @@ export const productEntryRouter = router({
 
 export function withTotal<
   E extends {
-    items: { quantity: number; price: number; packing: P }[];
+      items: { quantity: number; price: number; packing: P }[];
+      additionalCharges: number;
   },
   P extends { size: number }
 >(productEntry: E) {
@@ -94,6 +95,8 @@ export function withTotal<
   return {
     ...productEntry,
     items: itemsWithTotal,
-    total: itemsWithTotal.map(({ total }) => total).reduce(add, 0),
+    total:
+      itemsWithTotal.map(({ total }) => total).reduce(add, 0) +
+      productEntry.additionalCharges,
   };
 }

@@ -68,7 +68,7 @@ model ProductEntry {
   user              User               @relation(fields: [userId], references: [id])
   type              ProductEntryType
   account           Account            @relation(fields: [accountId], references: [id])
-  additionalCharges Int?               @default(0)
+  additionalCharges Int                @default(0)
   userId            Int
   accountId         Int
   items             ProductEntryItem[]
