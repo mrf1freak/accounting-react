@@ -47,6 +47,9 @@ export default function ProductEntryDetails() {
           ]}
           getKey={({ id }) => id}
         />
+        <Text ta="right" size={16} mt={16}>
+          Rs. {entry.additionalCharges}
+        </Text>
         <Text ta="right" size={24} mt={8}>
           Rs. {entry.total.toLocaleString()}
         </Text>
