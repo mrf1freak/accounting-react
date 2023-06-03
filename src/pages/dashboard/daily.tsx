@@ -6,7 +6,7 @@ import { Table } from "components/ui";
 import { Box, Container, Flex, Group, Title } from "@mantine/core";
 import { useRouter } from "next/router";
 import { format } from "utils/currency";
-import { productEntry } from "utils/urls";
+import { productEntry, generalEntry } from "utils/urls";
 
 export default function Daily() {
   const { push } = useRouter();
@@ -67,6 +67,7 @@ export default function Daily() {
           },
           { name: "To", value: ({ to }) => to.name },
         ]}
+        onClickRow={({ id }) => push(generalEntry(id))}
         items={generalEntries}
         getKey={({ id }) => id}
       />

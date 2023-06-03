@@ -3,6 +3,15 @@ import { prisma } from "prisma-client";
 import { z } from "zod";
 
 export const generalEntryRouter = router({
+  findByID: privateProcedure.input(z.number()).query(async ({ input: id }) => {
+    return await prisma.generalEntry.findUnique({
+      where: { id },
+      include: {
+        from: true,
+        to: true,
+      },
+    });
+  }),
   findByDate: privateProcedure.input(z.date()).query(
     async ({ input: date }) =>
       await prisma.generalEntry.findMany({
@@ -35,5 +44,11 @@ export const generalEntryRouter = router({
             user: { connect: { id: session?.user.id } },
           },
         })
+    ),
+  deleteByID: privateProcedure
+    .input(z.number())
+    .mutation(
+      async ({ input: id }) =>
+        await prisma.generalEntry.delete({ where: { id } })
     ),
 });
